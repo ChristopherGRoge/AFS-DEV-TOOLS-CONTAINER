@@ -13,10 +13,12 @@
   "remoteUser": "vscode",
 
   // Persistent volumes for Claude Code config and bash history
+  // Use host's SSH keys for git operations
   "mounts": [
     "source=claude-config,target=/home/vscode/.claude,type=volume",
     "source=bash-history,target=/home/vscode/.bash_history_vol,type=volume",
-    "source=aws-config,target=/home/vscode/.aws,type=volume"
+    "source=aws-config,target=/home/vscode/.aws,type=volume",
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/vscode/.ssh,readonly,type=bind,consistency=cached"
   ],
 
   // VS Code customizations
@@ -56,11 +58,6 @@
 
   // Forward ports (add any specific ports you need)
   "forwardPorts": [],
-
-  // Use host's SSH keys for git operations
-  "mounts": [
-    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/vscode/.ssh,readonly,type=bind,consistency=cached"
-  ],
 
   // Features (optional - uncomment to add more functionality)
   // "features": {
