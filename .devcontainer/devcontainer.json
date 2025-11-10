@@ -12,6 +12,9 @@
   // Container user
   "remoteUser": "vscode",
 
+  // Disable automatic UID/GID updating (prevents issues with domain/enterprise UIDs)
+  "updateRemoteUserUID": false,
+
   // Persistent volumes for Claude Code config and bash history
   // Use host's SSH keys for git operations
   "mounts": [
