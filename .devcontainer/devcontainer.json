@@ -1,0 +1,69 @@
+{
+  "name": "Claude Code Dev Container",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "USERNAME": "vscode",
+      "USER_UID": "1000",
+      "USER_GID": "1000"
+    }
+  },
+
+  // Container user
+  "remoteUser": "vscode",
+
+  // Persistent volumes for Claude Code config and bash history
+  "mounts": [
+    "source=claude-config,target=/home/vscode/.claude,type=volume",
+    "source=bash-history,target=/home/vscode/.bash_history_vol,type=volume",
+    "source=aws-config,target=/home/vscode/.aws,type=volume"
+  ],
+
+  // VS Code customizations
+  "customizations": {
+    "vscode": {
+      // Extensions to install
+      "extensions": [
+        "anthropic.claude-code",
+        "eamodio.gitlens",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "redhat.vscode-yaml",
+        "streetsidesoftware.code-spell-checker"
+      ],
+
+      // VS Code settings
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "python.defaultInterpreterPath": "/usr/bin/python3",
+        "files.watcherExclude": {
+          "**/node_modules/**": true,
+          "**/.git/objects/**": true,
+          "**/.git/subtree-cache/**": true,
+          "**/venv/**": true,
+          "**/__pycache__/**": true
+        }
+      }
+    }
+  },
+
+  // Post-create command to set up bash history
+  "postCreateCommand": "touch ~/.bash_history && ln -sf ~/.bash_history_vol ~/.bash_history 2>/dev/null || true",
+
+  // Forward ports (add any specific ports you need)
+  "forwardPorts": [],
+
+  // Use host's SSH keys for git operations
+  "mounts": [
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/vscode/.ssh,readonly,type=bind,consistency=cached"
+  ],
+
+  // Features (optional - uncomment to add more functionality)
+  // "features": {
+  //   "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  // }
+}
