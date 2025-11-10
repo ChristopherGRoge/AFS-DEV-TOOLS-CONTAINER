@@ -56,8 +56,8 @@
     }
   },
 
-  // Post-create command to set up bash history
-  "postCreateCommand": "touch ~/.bash_history && ln -sf ~/.bash_history_vol ~/.bash_history 2>/dev/null || true",
+  // Post-create command to set up bash history and fix volume permissions
+  "postCreateCommand": "sudo chown -R vscode:vscode ~/.claude ~/.aws ~/.bash_history_vol && touch ~/.bash_history && ln -sf ~/.bash_history_vol ~/.bash_history 2>/dev/null || true",
 
   // Forward ports (add any specific ports you need)
   "forwardPorts": [],
