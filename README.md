@@ -192,6 +192,49 @@ pip install -r requirements.txt
 - Ensure your SSH keys exist in `~/.ssh/` on your host machine
 - Check permissions: `chmod 600 ~/.ssh/id_rsa`
 
+### Full Container Reset
+
+If you need to completely reset your dev container (e.g., after pulling major updates or troubleshooting persistent issues), follow these steps:
+
+```bash
+# 1. Navigate to your local repository
+cd /path/to/AFS-DEV-TOOLS-CONTAINER
+
+# 2. Close VS Code if it's open with the container
+
+# 3. Pull latest changes from GitHub
+git reset --hard origin/main
+git pull origin main
+
+# 4. Remove old Docker volumes (this deletes any saved credentials/config)
+docker volume rm afs-dev-config afs-dev-bash-history afs-dev-aws-config 2>/dev/null || true
+
+# Also remove legacy volume names if upgrading from older version
+docker volume rm claude-config bash-history aws-config 2>/dev/null || true
+
+# 5. Remove old container images related to this project
+docker container prune -f
+docker image prune -f
+
+# 6. Optional: Remove specific devcontainer images (more aggressive)
+docker images | grep "afs-dev-tools-container" | awk '{print $3}' | xargs docker rmi -f 2>/dev/null || true
+
+# 7. Reopen in VS Code and rebuild
+code .
+# Then click "Reopen in Container" or run: Dev Containers: Rebuild Container
+```
+
+**Note:** After a full reset, you'll need to:
+- Re-authenticate Claude Code: `claude auth login`
+- Reconfigure AWS CLI: `aws configure`
+- Reset any other tool configurations
+
+**When to use a full reset:**
+- After major repository updates (volume name changes, Dockerfile updates, etc.)
+- Persistent permission errors
+- Container won't start or build
+- Corrupted Docker volumes
+
 ## Architecture
 
 ```
