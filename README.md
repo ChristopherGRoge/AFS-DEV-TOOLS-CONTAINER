@@ -37,8 +37,8 @@ A fully portable Docker development environment with VS Code, Claude Code, and e
 
 1. **Clone this repository**
    ```bash
-   git clone <your-repo-url>
-   cd CLAUDE-CODE-CONTAINER
+   git clone https://github.com/ChristopherGRoge/AFS-DEV-TOOLS-CONTAINER.git
+   cd AFS-DEV-TOOLS-CONTAINER
    ```
 
 2. **Open in VS Code**
