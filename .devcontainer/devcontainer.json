@@ -1,5 +1,5 @@
 {
-  "name": "Claude Code Dev Container",
+  "name": "AFS Dev Container",
   "build": {
     "dockerfile": "Dockerfile",
     "args": {
@@ -15,12 +15,12 @@
   // Disable automatic UID/GID updating (prevents issues with domain/enterprise UIDs)
   "updateRemoteUserUID": false,
 
-  // Persistent volumes for Claude Code config and bash history
+  // Persistent volumes for dev tools config and bash history
   // Use host's SSH keys for git operations
   "mounts": [
-    "source=claude-config,target=/home/vscode/.claude,type=volume",
-    "source=bash-history,target=/home/vscode/.bash_history_vol,type=volume",
-    "source=aws-config,target=/home/vscode/.aws,type=volume",
+    "source=afs-dev-config,target=/home/vscode/.claude,type=volume",
+    "source=afs-dev-bash-history,target=/home/vscode/.bash_history_vol,type=volume",
+    "source=afs-dev-aws-config,target=/home/vscode/.aws,type=volume",
     "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/vscode/.ssh,readonly,type=bind,consistency=cached"
   ],
 

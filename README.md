@@ -1,6 +1,6 @@
-# Claude Code Dev Container
+# AFS Dev Container
 
-A fully portable Docker development environment with VS Code, Claude Code, and essential development tools. This container allows developers to "parachute in" with a complete, reproducible development setup.
+A fully portable Docker development environment with VS Code and essential development tools including Claude Code, Python, AWS CLI, and more. This container allows developers to "parachute in" with a complete, reproducible AFS development setup.
 
 ## What's Included
 
@@ -67,9 +67,9 @@ A fully portable Docker development environment with VS Code, Claude Code, and e
 
 ### Persistent Storage
 The following directories are mounted as persistent Docker volumes (survive container rebuilds):
-- `~/.claude` - Claude Code authentication and configuration
-- `~/.bash_history` - Command history
-- `~/.aws` - AWS CLI credentials and configuration
+- `~/.claude` - Claude Code authentication and configuration (volume: `afs-dev-config`)
+- `~/.bash_history` - Command history (volume: `afs-dev-bash-history`)
+- `~/.aws` - AWS CLI credentials and configuration (volume: `afs-dev-aws-config`)
 
 ### SSH Key Forwarding
 Your host machine's SSH keys are automatically mounted (read-only) for git operations.
@@ -195,16 +195,16 @@ pip install -r requirements.txt
 ## Architecture
 
 ```
-CLAUDE-CODE-CONTAINER/
+AFS-DEV-TOOLS-CONTAINER/
 ├── .devcontainer/
 │   ├── Dockerfile           # Container image definition
 │   └── devcontainer.json    # VS Code configuration
 └── README.md                # This file
 
 Docker Volumes (persistent):
-- claude-config   -> ~/.claude
-- bash-history    -> ~/.bash_history
-- aws-config      -> ~/.aws
+- afs-dev-config        -> ~/.claude
+- afs-dev-bash-history  -> ~/.bash_history
+- afs-dev-aws-config    -> ~/.aws
 ```
 
 ## Technical Details
