@@ -25,6 +25,7 @@ A fully portable Docker development environment with VS Code and essential devel
 - Python + Pylance
 - YAML support
 - Code Spell Checker
+- AFS Code Cred (Windows hosts only)
 
 ## Quick Start
 
@@ -191,6 +192,43 @@ pip install -r requirements.txt
 ### SSH keys not working
 - Ensure your SSH keys exist in `~/.ssh/` on your host machine
 - Check permissions: `chmod 600 ~/.ssh/id_rsa`
+
+### Updating the Container
+
+When updates are pushed to the repository (new configuration, scripts, or container changes), you need to pull the changes and rebuild:
+
+**⚠️ Important:** This process preserves your persistent data (Claude auth, AWS config, bash history) stored in Docker volumes.
+
+```bash
+# 1. Navigate to your local repository directory
+cd /path/to/LOCAL-SERVICES/AFS-DEV-TOOLS-CONTAINER
+
+# 2. Pull latest changes from GitHub
+git reset --hard
+git pull
+```
+
+**3. Rebuild the container** using one of these methods:
+
+- **Option A (Standard Rebuild)**: In VS Code, press `Ctrl+Shift+P` (or `Cmd+Shift+P` on Mac), then select:
+  - `Dev Containers: Rebuild Container`
+
+- **Option B (Clean Rebuild)**: If you want to ensure a completely fresh build without using cached layers:
+  - `Dev Containers: Rebuild Container Without Cache`
+
+**What gets preserved:**
+- ✅ Claude Code authentication (`~/.claude`)
+- ✅ AWS CLI credentials (`~/.aws`)
+- ✅ Bash command history (`~/.bash_history`)
+- ✅ Your workspace files and git repositories
+
+**What gets updated:**
+- Container configuration (`.devcontainer/devcontainer.json`)
+- Installed tools and packages (`.devcontainer/Dockerfile`)
+- Scripts and automation (`.devcontainer/*.sh`)
+- VS Code extensions
+
+**Note:** Most updates only require a standard rebuild. Use "Rebuild Without Cache" only if you're experiencing issues with cached layers.
 
 ### Full Container Reset
 

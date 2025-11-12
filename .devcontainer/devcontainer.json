@@ -15,6 +15,11 @@
   // Disable automatic UID/GID updating (prevents issues with domain/enterprise UIDs)
   "updateRemoteUserUID": false,
 
+  // Pass through host environment variables for conditional extension installation
+  "remoteEnv": {
+    "USERPROFILE": "${localEnv:USERPROFILE}"
+  },
+
   // Persistent volumes for dev tools config and bash history
   // Use host's SSH keys for git operations
   "mounts": [
@@ -61,6 +66,9 @@
 
   // Post-start command runs every time container starts - fixes volume permissions
   "postStartCommand": "sudo chown -R vscode:vscode ~/.claude ~/.aws ~/.bash_history_vol 2>/dev/null || true",
+
+  // Post-attach command installs Windows-specific extensions conditionally
+  "postAttachCommand": "bash ${containerWorkspaceFolder}/.devcontainer/install-windows-extensions.sh",
 
   // Forward ports (add any specific ports you need)
   "forwardPorts": [],
